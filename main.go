@@ -28,8 +28,10 @@ func main() {
 	defer f.Close()
 
 	var (
-		result   []product
-		rowRegex = regexp.MustCompile(`^(.*[A-Za-z%])(\d{13})(\d+\.\d{2})(\d*\.?\d+).*(st|kg)(\d+\.\d{2})$`)
+		result []product
+		// Takes a string "LF Lätt CF 13%731869007567716.501 st16.50"
+		// And groups them into (LF Lätt CF 13%) (7318690075677) (16.50) (1) (st) (16.50)
+		rowRegex = regexp.MustCompile(`^(.*?)(\d{13})(\d+\.\d{2})(\d*\.?\d+)\s(.*?)(\d+\.\d{2})$`)
 	)
 	for i := 1; i <= r.NumPage(); i++ {
 		p := r.Page(i)
